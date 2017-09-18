@@ -1,0 +1,124 @@
+
+
+
+
+/*Blog-detail*/
+.reply-form {
+    display: none;
+}
+
+.reply-comments{
+    display: none;
+}
+
+
+
+#edit-comment-box textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+
+}
+/*End blog detail*/
+
+/*.detail-right-side{*/
+.div-crop{
+
+    width: 100px;
+    height:100px;
+    overflow: hidden;
+    margin: 15px;
+    margin-bottom: 0;
+    /*position: relative;*/
+}
+.img-crop {
+    position: absolute;
+    margin: auto;
+    max-height:230px;
+    max-width: 230px !important;
+
+    /* For the following settings we set 100%, but it can be higher if needed
+    See the answer's update */
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+}
+/*End detail-right-side{*/
+
+
+
+/*DelEditComment*/
+.del-edit-comment-opt{
+    display: none;
+}
+
+.edit-del-opt{
+    list-style-type:None;
+}
+.del-edit-btn{
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 1% 23%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+li button:hover{
+    background-color:#e6e6e6 !important;
+
+}
+.text-center{
+    text-align: center;
+    color: white;
+    font-size: 12px;
+
+}
+/*End DelEditComment*/
+
+
+
+
+/*tag-filter*/
+.tag-div-crop{
+    width: 240px !important;
+    height: 220px !important;
+}
+
+.tag_img_crop{
+    max-width: 370px !important;
+    max-height: 420px !important;
+}
+/*end tag-filter*/
+
+
+
+/* under the blog detail */
+.related-div-crop{
+    width: 240px !important;
+    height: 220px !important;
+    margin-bottom: 0 !important;
+    margin-left: 5px;
+}
+.related-img-crop{
+    max-width: 275px !important;
+    max-height: 410px !important;
+    position: inherit !important;
+
+}
+/* End under the blog detail */
+
+/*Footer*/
+.text-center > a{
+    color:whitesmoke;
+
+}
+/*End Footer*/
+
+
+/**/

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<ul class = "edit-del-opt">
+    <li role = "presentation">
+        <button class="del-edit-btn edi-comment" style="padding: 1% 34% !important;" type="submit">Edit</button>
+    </li>
+    <li role="presentation">
+        <form method="post" action="">{% csrf_token %}
+            <input name = 'comment_id' type="hidden" value="{{ child_comment.id }}" >
+            <button type="submit" class="del-edit-btn del-comment" value="Delete">Delete</button>
+        </form>
+    </li>
+</ul>

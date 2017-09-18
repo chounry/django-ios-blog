@@ -1,0 +1,65 @@
+{% extends 'home/header.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Post Form{% endblock title %}
+{% block heading %} {{ form.media }} {% endblock heading %}
+{% block content %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var titleInput = $("#id_post_title"); //Item of form's title
+            var contentInput = $("#id_caption");  //Item of form's content
+
+            //set for preview display "title"
+            function setTitle(value) {
+                $("#preview-title").text(value);
+            }
+            setTitle(titleInput.val());
+
+
+            //set for preview display "content"
+            function setContent(value) {
+                var markedContent = marked(value);
+                $("#preview-content").html(markedContent);
+                $("#preview-content img").each(function () {
+                    $(this).addClass("img-responsive");
+                    $(this).css("padding","30px")
+
+                })
+            }
+            setContent(contentInput.val());
+
+            //when the key is up the context will be update
+            contentInput.keyup(function () {
+                var newContent = $(this);
+                setContent(newContent.val())
+            });
+
+            titleInput.keyup(function () {
+                var newTitle = $(this);
+                setTitle(newTitle.val())
+            });
+
+        })
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 form-preview">
+                <h1><small>Preview</small></h1>
+                <hr>
+                <h2 id = "preview-title"></h2>
+                <p id = "preview-content"></p>
+            </div>
+            <div class=" col-sm-5">
+                <h1><small>Form</small></h1>
+                <hr>
+                <h3><small>Author : {{ user }}</small></h3>
+                <form method="post" enctype="multipart/form-data" action="">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button type = "submit" class = "btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

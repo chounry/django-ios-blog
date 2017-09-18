@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<title>{% block title %}{% endblock title %}</title>
+	<meta charset="utf-8" />
+	{% load staticfiles %}
+    {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'home/css/header.css' %}" type="text/css">
+    <link type = "text/css" rel = "stylesheet" href="{% static 'home/css/contact.css'%}"/>
+	<link rel="stylesheet" href="{% static 'home/css/general.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type = "text/css"/>
+{#    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" type = "text/css"/>#}
+    <link href="{% static 'fontawesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Zilla+Slab" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif&amp;subset=latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Yantramanav" rel="stylesheet">
+    <script src = "{% static 'jquery-3.2.1.js' %}"></script>
+    <script src = "{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script src = "{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+    {% block heading %}{% endblock heading %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+{#            var dorpdown_toggle = $('.dropdown-toggle');#}
+{#            dorpdown_toggle.hover(#}
+{#                function () {#}
+{#                $('.device-dropdown').slideDown(100);#}
+{#                    },#}
+{#                function () {#}
+{#                    $('.device-dropdown').slideUp(100);#}
+{#                }#}
+{#            );#}
+
+            $(".post-detail img").each( function () {
+                $(this).addClass("img-responsive");
+                $(this).css("padding","30px");
+                $(this).css("height","auto");
+                $(this).css("max-width","475px");
+                $(this).css("align-item","center");
+                $(this).css("margin","20px auto 20px auto");
+            });
+
+
+            $(".show-reply-btn").click(function (event) {
+                event.preventDefault();
+                $(this).parent().parent().parent().parent().next().fadeToggle();
+                console.log($(this).parent().next());
+            });
+
+            $(".reply-comment-btn").click(function (event) {
+                event.preventDefault();
+                $(this).parent().parent().parent().parent().next().next().fadeToggle();
+                console.log();
+            });
+            $(".nav a").each(function () {
+                $(this).css("font-size","20px");
+            })
+
+        });
+    </script>
+</head>
+
+<body style="background-color:#f6f6f6">
+    <nav class="navbar navbar-default ">
+        <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DEVICES <span class="caret"></span></a>
+                        <ul class="dropdown-menu device-dropdown">
+                            <li><a href="#">iPhone</a></li>
+                            <li><a href="#">iPad</a></li>
+                            <li><a href="#">Mac</a></li>
+                            <li><a href="#">Apple Watch</a></li>
+                            <li><a href="#">Apple TV</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">APPS<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'tag:filter-tag' 'tutorials' %}">TUTORIALS</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">JAILBREAKS <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" method="get" action="{% url 'home:search' %}">
+                    <div class="form-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+                {% if user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home:add-post' %}">Add Post</a> </li>
+                </ul>
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right icon-bar" style="margin-top:12px;">
+                    <li><a target="_blank" href="https://web.facebook.com/chounry.oun" style="color: #3b5998"><i class="fa fa-facebook-square"  aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="" style="color: rgb(0, 132, 180)"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="" style="color: #d34836"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="" style="color:rgb(0, 119, 181)"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    {% block content %}{% endblock content %}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>#}
+
+    <footer style="background: black;margin-top: 20px;">
+        <div class="container" style="padding:15px;color:white;">
+            <p class="text-center"><a href="/">Brand</a></p>
+            <p class="text-center">
+                <a href="{% url 'home:personal' %}">Personal</a>  |
+                <a href="{% url 'home:contact' %}">Contact</a>  |
+                <a href="#">Advertise</a>  |
+                <a href="#">Disclosure</a>  |
+                <a href="#">Privacy Policy</a>
+            </p>
+            <p class="text-center">2017 ©
+                <a href="#">Blanket</a> - This is not a website.
+            </p>
+        </div>
+    </footer>
+{#    <div class = "go-up">#}
+{#    </div>#}
+</body>

@@ -1,0 +1,80 @@
+{% extends 'home/header.html' %}
+<head>
+    <title>Blog</title>
+</head>
+{% block content %}
+    <div class="container-fluid">
+        <div class = "row">
+            <div class = "col-sm-offset-3 col-sm-6" style="background:white; margin-buttom:10px;margin-top:10px;">
+
+                {% if allow %}
+                    <div class="col-sm-6 col-md-7">
+                        <div class="form-group">
+                            <a  href ="{% url 'home:blog-add' %}">
+                                <button type="button" class="btn btn-primary" style="margin-top:10px;">Create Blog</button>
+                            </a>
+                            <a href="/">
+                                <button type="button" class="btn btn-default" style="margin-top:10px;">Home</button>
+                            </a>
+                        </div>
+                    </div><br>
+                {% endif %}
+
+
+                <!-- Posts -->
+                {% if posts %}
+                    <div class = "col-sm-12" style="margin-top: 10px;">
+                        {% for post in posts %}
+                            <div class="row">
+                                <div class="col-sm-11 col-md-12">
+                                    <div class ="thumbnail">
+                                        <a href="{% url 'home:blog-detail' post.slug %}">
+                                            <img src="{{ post.post_img }}" class = "img-responsive" style="max-height: 450px;" >
+                                        </a>
+                                        <hr>
+
+                                        {% if user.is_active %}
+                                            <!-- Delete -->
+                                            <form action="{% url 'home:blog-delete' post.slug %}" method="post"  style="display: inline;" />
+                                                {% csrf_token %}
+                                                <button class= "btn btn-default" type="submit" >
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </form>
+
+                                            <!--  Edit  -->
+                                            <a class="btn btn-default" type="submit" role="button" href="{% url 'home:blog-update' post.slug %}">
+                                                <span class ="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        {% endif %}
+
+                                        <!-- Caption and Title -->
+                                        <div class="caption">
+                                            <h2 style="font-family: 'Bree Serif', serif;">{{ post.post_title }} <small> {{ post.publish | timesince }} ago </small></h2>
+                                            <h5><small>Author:{{ post.user }}</small></h5>
+                                            <p class="post-detail" style="font-family: 'Zilla Slab', serif;">{{ post.get_markdown|truncatewords:50 }} <a href="{% url 'home:blog-detail' post.slug %}"><u>View more</u></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <!--  end Post -->
+
+                <!-- page -->
+                <div class="pagination">
+                    <span class="current">
+                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                    </span>
+                    {% for num in posts.paginator.page_range %}
+                        <span class="step-links">
+                            <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" style="" class >{{ num }}</a>
+                        </span>
+                    {% endfor %}
+                </div>
+                <!-- end page -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

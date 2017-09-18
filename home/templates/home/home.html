@@ -1,0 +1,77 @@
+{% extends "home/header.html" %}
+{% block title %}Blog{% endblock title %}
+{% block content %}
+    <div class="container"  style="background: white;">
+        <div class="row">
+
+            <!-- Trending -->
+            <div class="col-md-12" style="margin-top: 10px;">
+                <ul class="no-dot-li list-inline fixed-font " style="font-size: 15px;">
+                    <li>
+                        <p>#Trending :</p>
+                    </li>
+                    {% for tag in trending_tags %}
+                        <li>
+                            <a class="black-font" href="{% url 'tag:filter-tag' tag.url_tag_name %}">{{ tag.tag_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+            <!-- End Trending -->
+
+        <div class="row" style="padding-bottom: 20px;">
+            <div class="col-sm-5 col-md-8" style="padding-left: 0;">
+                <!-- Tag name -->
+                <div class="col-sm-12">
+                    <div style="margin-bottom: -16px;">
+                        <p class="fixed-font">{{ tag_name.upper }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <!-- End Tag name -->
+
+                <!-- Posts -->
+                <div class="container-fluid">
+                    {% for post in posts %}
+                        <div class="row" style="margin-bottom: 30px;">
+                            <div class="col-md-3 tag-div-crop div-crop">
+                                <a href="{{ post.get_absolute_url }}">
+                                    <img class="img-responsive img-crop tag_img_crop" src = "{{ post.post_img.url }}">
+                                </a>
+                            </div>
+                            <div class="col-md-7">
+                                <a href="{{ post.get_absolute_url }}">
+                                    <h3 class="black-font margin-right" style="margin-top: 15px;font-weight: bold;line-height: 30px">{{ post.post_title }}</h3>
+                                </a>
+                                <p><small>{{ user }} on {{ post.publish }}{% if post.amount_comment %} — {{ post.amount_comment }} comment{% if post.amount_comment > 1  %}s {% endif %}{% endif %}</small></p>
+                                <div class="caption" style="font-size: 16px !important;">
+                                    <p class="margin-right"> {{ post.get_markdown | truncatewords:30 }}<a href="{{ post.get_absolute_url }}" style="font-size: 14px;">View more</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- End Post -->
+
+                <!-- page -->
+                <div class="pagination">
+                    <span class="current">
+                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                    </span>
+                    {% for num in posts.paginator.page_range %}
+                        <span class="step-links">
+                            <a href="?page={{ num }}" style="" class >{{ num }}</a>
+                        </span>
+                    {% endfor %}
+                </div>
+                <!-- end page -->
+            </div>
+
+        <!--- right side --->
+        {% include 'home/righSide.html' %}
+        <!--- End right side --->
+        </div>
+    </div>
+
+{% endblock %}

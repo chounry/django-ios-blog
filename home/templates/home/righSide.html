@@ -1,0 +1,22 @@
+<div class="col-md-4">
+    {% for posts_name, posts_obj in right_side_posts %}
+        {% if posts_obj and posts_name %}
+            <div class="col-md-12" style="margin-bottom: 30px;">
+                <p class="fixed-font" style="margin-top: 0;margin-bottom: -15px;">{{ posts_name }}</p>
+                <hr style="margin-bottom: 0px;">
+                {% for post in posts_obj %}
+                    <a href="{{ post.get_absolute_url }}">
+                        <div class="row detail-right-side">
+                            <div class="col-sm-4 div-crop">
+                                <img src="{{ post.post_img.url }}" class="img-responsive img-crop" alt="img">
+                            </div>
+                            <div class="col-sm-7">
+                                <h4 class="headFont black-font" style="line-height: 22px;font-size: 18px;">{{ post.post_title }}</h4>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

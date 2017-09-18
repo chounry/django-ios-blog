@@ -1,0 +1,16 @@
+{% extends 'home/header.html' %}
+{% block title %}Comfirm Delete{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+                <h1>Confirm Delete</h1>
+                <p>Are you sure you want to delete "{{ object.content }}"? </p>
+                <form method="post" action="">{% csrf_token %}
+                    <input type="hidden" name = "comment_id" value="{{ object.id }}">
+                    <input type="submit" class="btn btn-warning" value="Confirm">
+                </form>
+                <a href="{{ object.content_object.get_absolute_url }}" role="button" class="btn btn-default">Cansel</a>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,165 @@
+<!-- Comments --->
+{% load crispy_forms_tags %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".del-edit-comment-opt-btn").click(function (event) {
+            event.preventDefault();
+            $(this).next().children(".del-edit-comment-opt").fadeToggle(0.1)
+
+        });
+
+        var para_display = true;
+
+        $(".edi-comment").click(function (event) {
+            event.preventDefault();
+            if(para_display){
+                $(this).parent().parent().parent().parent().children(".col-md-10").children("p").css('display','none');
+                $(this).parent().parent().parent().parent().children(".col-md-10").children("#edit-comment-box").css('display','unset');
+                para_display = false;
+            }
+            else{
+                $(this).parent().parent().parent().parent().children(".col-md-10").children("p").css('display','unset');
+                $(this).parent().parent().parent().parent().children(".col-md-10").children("#edit-comment-box").css('display','none');
+                para_display = true;
+            }
+
+
+
+            console.log($(this).parent().parent().parent().parent().parent().children(".col-md-10"))
+        })
+
+
+
+    })
+</script>
+<div class="col-sm-12" style="padding-left:25px;">
+    <hr/>
+    <label>Leave a comment</label>
+
+    <!-- post comment-form -->
+    <form method="POST" action=".">{% csrf_token %}
+        <div>{{ comment_form | crispy }}</div>
+        <input type="submit" value="Post Comment" class="btn btn-primary">
+    </form>
+    <hr>
+    <!-- end post comment-form  -->
+
+    <!---- all comment --->
+    <label>Comments</label>
+    {% if comments %}
+        {% for comment in comments %}
+            <blockquote>
+
+                <!-- Delete Edit Comment option btn -->
+                {% if request.user == comment.user %}
+                    <div align="right" class="del-edit-comment-opt-btn">
+                        <a class="presentation"><span class="glyphicon glyphicon-option-vertical"></span></a>
+                    </div>
+                {% endif %}
+                <!-- end Delete Edit Comment option btn -->
+
+                <!-- comments -->
+                <div class="row parent-of-comment">
+                    <div class="col-md-10">
+                        <p>{{ comment.content }}</p>
+                        {% include "comment/EditComment.html" %}
+                        <footer>{{ comment.user }} |
+                            <cite title="Source Title">
+                                {{ comment.publish | timesince }} ago
+                                {% if comment.children %} | {{ comment.children.count }} comment{% if comment.children.count > 1 %}s | {% endif %}{% endif %}
+                            </cite>
+                        </footer>
+                        <div class="like">
+                            <small>
+                                {% if comment.children %}<a href="#" class="show-reply-btn"> Show all {{ comment.children.count }} replies</a> |{% endif %}
+                                <a href="#" class="reply-comment-btn">Reply</a>
+                                <button>
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                </button>
+                                <button>
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                </button>
+                            </small>
+                        </div>
+                    </div>
+                    <!--- end comment -->
+
+                    <!-- Edit and Del comment option show -->
+                    <div class="col-md-2 del-edit-comment-opt" style="background:white;border-radius:5px; ">
+                        {% include "comment/DelEditComment.html" %}
+                    </div>
+                    <!-- end Edit and Del comment option -->
+                </div>
+
+                <!-- reply comments -->
+                <div class="reply-comments">
+                    {% for child_comment in comment.children %}
+
+                        <blockquote>
+                            <!-- Delete Edit Comment option btn -->
+                            {% if request.user == comment.user %}
+                                <div align="right" class="del-edit-comment-opt-btn">
+                                <a class="presentation"><span class="glyphicon glyphicon-option-vertical"></span></a>
+                                </div>
+                            {% endif %}
+                            <!-- end Delete Edit Comment option btn -->
+
+                            <div class="row parent-of-comment">
+                                <div class="col-md-10">
+                                    <p>{{ child_comment.content }}</p>
+
+                                    <!-- Edit comment text box -->
+                                    {% include "comment/EditComment.html" %}
+                                    <!-- Edit comment text box -->
+
+                                    <footer>{{ child_comment.user }} |<cite title="Source Title"> {{ child_comment.publish | timesince }} ago</cite></footer>
+
+                                    <!-- Like Reply for reply -->
+                                    <div class="like">
+                                        <small>
+            {#                                <a href="#" class="reply-comment-btn">Reply</a>#}
+                                            <button>
+                                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                            </button>
+                                            <button>
+                                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                            </button>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!--- Del Edit option -->
+                                <div class="col-md-2 del-edit-comment-opt" style="background:white;border-radius:5px; ">
+                                    {% include "comment/DelEditReply.html" %}
+                                </div>
+                                <!--- end Del Edit option -->
+
+                            <!-- end Like Reply for reply -->
+
+                            </div>
+                        </blockquote>
+
+
+                        <hr>
+                    {% endfor %}
+                </div>
+                <!-- end reply comments -->
+
+                <!-- reply form -->
+                <div class="reply-form">
+                    <form method="POST" action="">{% csrf_token %}
+                        {{ comment_form | crispy }}
+                        <input type="hidden" name="parent_id" value = "{{ comment.id }}" >
+                        <input type="submit" value="Reply" class="btn btn-default">
+                    </form>
+                </div>
+                <!-- end reply form -->
+
+            </blockquote>
+        {% endfor %}
+    {% endif %}
+    <!--- end comment --->
+</div>
+
+
+<!-- end comment -->

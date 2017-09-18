@@ -1,0 +1,61 @@
+{% extends 'home/header.html' %}
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+    <div class="container" style="background: white;">
+        <div class="row" style="margin: 35px;">
+
+        </div>
+        <div class="row" style="padding-bottom: 20px;">
+            <div class="col-sm-5 col-md-8" >
+                <!-- Tag name -->
+                <div class="col-sm-12">
+                    <div style="margin-bottom: -16px;">
+                        <p class="fixed-font">{% if date %}{{ date }}{% else %}{{ tag_name.upper }}{% endif %}</p>
+                    </div>
+                    <hr>
+                </div>
+                <!-- End Tag name -->
+
+                <!-- Posts -->
+                <div class="container-fluid">
+                {% for post in posts %}
+                    <div class="row" style="margin-bottom: 30px;">
+                        <div class="col-md-3 tag-div-crop div-crop">
+                            <a href="{{ post.get_absolute_url }}">
+                                <img class="img-responsive img-crop tag_img_crop" src = "{{ post.post_img.url }}">
+                            </a>
+                        </div>
+                        <div class="col-md-7">
+                            <a href="{{ post.get_absolute_url }}">
+                                <h2 class="black-font margin-right" style="margin-bottom: ;margin-top: 15px;">{{ post.post_title }}</h2>
+                            </a>
+                            <p><small>{{ user }} on {{ post.publish }}{% if post.amount_comment %} — {{ post.amount_comment }} comment{% if post.amount_comment > 1  %}s {% endif %}{% endif %}</small></p>
+                            <div class="caption" style="font-size: 16px !important;">
+                                <p class="margin-right">{{ post.get_markdown | truncatewords:20 }}<a href="{{ post.get_absolute_url }}" style="font-size: 14px;">View more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <!-- End Post -->
+
+                <!-- page -->
+                <div class="pagination">
+                    <span class="current">
+                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                    </span>
+                    {% for num in posts.paginator.page_range %}
+                        <span class="step-links">
+                            <a href="?page={{ num }}" style="" class >{{ num }}</a>
+                        </span>
+                    {% endfor %}
+                </div>
+                <!-- end page -->
+            </div>
+        <!--- right side --->
+        {% include 'home/righSide.html' %}
+        <!--- End right side --->
+        </div>
+    </div>
+{% endblock %}
