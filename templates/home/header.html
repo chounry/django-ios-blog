@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="{% static 'home/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type = "text/css"/>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type = "text/css"/>
-{#    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" type = "text/css"/>#}
+    <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" type = "text/css"/> -->
     <link href="{% static 'fontawesome/css/font-awesome.css' %}" rel="stylesheet">
     <link href="{% static 'fontawesome/css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Zilla+Slab" rel="stylesheet">
@@ -27,15 +27,15 @@
     {% block heading %}{% endblock heading %}
     <script type="text/javascript">
         $(document).ready(function () {
-{#            var dorpdown_toggle = $('.dropdown-toggle');#}
-{#            dorpdown_toggle.hover(#}
-{#                function () {#}
-{#                $('.device-dropdown').slideDown(100);#}
-{#                    },#}
-{#                function () {#}
-{#                    $('.device-dropdown').slideUp(100);#}
-{#                }#}
-{#            );#}
+// {#            var dorpdown_toggle = $('.dropdown-toggle');#}
+// {#            dorpdown_toggle.hover(#}
+// {#                function () {#}
+// {#                $('.device-dropdown').slideDown(100);#}
+// {#                    },#}
+// {#                function () {#}
+// {#                    $('.device-dropdown').slideUp(100);#}
+// {#                }#}
+// {#            );#}
 
             $(".post-detail img").each( function () {
                 $(this).addClass("img-responsive");
@@ -82,9 +82,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
+                    <li class="dropdown dropdown-device">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DEVICES <span class="caret"></span></a>
-                        <ul class="dropdown-menu device-dropdown">
+                        <ul class="dropdown-menu devices-menu">
                             <li><a href="#">iPhone</a></li>
                             <li><a href="#">iPad</a></li>
                             <li><a href="#">Mac</a></li>
@@ -92,9 +92,9 @@
                             <li><a href="#">Apple TV</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown dropdown-apps">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">APPS<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu apps-menu">
                             <li><a href="#">Action</a></li>
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
@@ -105,18 +105,7 @@
                         </ul>
                     </li>
                     <li><a href="{% url 'tag:filter-tag' 'tutorials' %}">TUTORIALS</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">JAILBREAKS <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'tag:filter-tag' 'tutorials' %}">JAILBREAKS</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" method="get" action="{% url 'home:search' %}">
                     <div class="form-group">

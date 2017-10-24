@@ -41,7 +41,7 @@ class Post(models.Model):
                   'month':self.publish_date.month,
                   'day':self.publish_date.day
                   }
-        return reverse('home:blog-detail',kwargs= kwargs)
+        return reverse('home:blog-detail',kwargs = kwargs)
 
     def __str__(self):
         return self.post_title + ' - ' + self.slug

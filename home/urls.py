@@ -10,6 +10,9 @@ urlpatterns = [
     # /contact/
     url(r'^contact/', views.contact, name = 'contact'),
 
+    # search/q=sf
+    url(r'^search/$', views.search, name = 'search'),
+
     # /personal/
     url(r'^personal/' , views.personal, name = 'personal'),
 
@@ -25,9 +28,6 @@ urlpatterns = [
 
     # /blog/slug/update/
     url(r'^blog/(?P<slug>[-\w]+)/update/$', views.BlogUpdate, name = 'blog-update'),
-
-    # search/q=sf
-    url(r'^search/', views.search, name = 'search'),
 
     #/year/
     url(r'^(?P<year>[0-9]{4})/$', views.dateLookUp, name="year_lookup"),
